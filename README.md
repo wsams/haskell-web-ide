@@ -16,8 +16,6 @@ https://example.com/haskell/index.php
 
 Tested on PHP 7.1.2 - requires at least PHP 7.
 
-<div style="clear:both;">
-    <a style="float:left; padding:16px; width:25%; display:block;" href="screenshots/ide.png"><img src="screenshots/ide.png" /></a>
-    <a style="float:left; padding:16px; width:25%; display:block;" href="screenshots/compiling.png"><img src="screenshots/compiling.png" style="float:left; padding:16px; width:25%;" /></a>
-    <a style="float:left; padding:16px; width:25%; display:block;" href="screenshots/output.png"><img src="screenshots/output.png" style="float:left; padding:16px; width:25%;" /></a>
-</div>
+<a href="screenshots/ide.png"><img height="400" width="251" src="screenshots/ide.png" /></a>
+<a href="screenshots/compiling.png"><img height="400" width="251" src="screenshots/compiling.png" style="float:left; padding:16px; width:25%;" /></a>
+<a href="screenshots/output.png"><img height="400" width="251" src="screenshots/output.png" style="float:left; padding:16px; width:25%;" /></a>
