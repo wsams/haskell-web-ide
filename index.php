@@ -142,7 +142,7 @@ $html = <<<eof
                 editor.setTheme("ace/theme/monokai");
                 editor.getSession().setMode("ace/mode/{$language}");
 
-                var mobile = window.innerWidth <= 800 && window.innerHeight <= 600;
+                var mobile = window.innerWidth <= 800 && window.innerHeight <= 800;
                 if (mobile) {
                     editor.renderer.setShowGutter(false);
                 } else {
@@ -169,7 +169,7 @@ $html = <<<eof
                     $("#compiler").html("");
                     $("#execution").html("");
                     swap();
-                    $(".message").html("Compiling...Please Wait<br /><img src='loader.gif' alt='loading' />");
+                    $(".message").html("Compiling...Please Wait<br /><img src='assets/loader.gif' alt='loading' />");
                     $.ajax({
                         type: "POST",
                         url: "index.php?a=compile",
