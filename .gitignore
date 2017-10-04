@@ -1,0 +1,9 @@
+js/ace-builds
+*.hi
+*.hs
+*.o
+*.err
+*.log
+versions/*
+node_modules/*
+code

@@ -1,0 +1,17 @@
+{
+  "name": "haskell-web-ide",
+  "version": "1.0.0",
+  "description": "A PHP frontend for Haskell. Play with the language on the go or at your desk with Ace editor and a ghc compiler.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Weldon Sams",
+  "license": "MIT",
+  "dependencies": {
+    "ace-builds": "^1.2.8",
+    "bootstrap": "^3.3.6",
+    "fastclick": "^1.0.6",
+    "jquery": "^2.2.3"
+  }
+}
