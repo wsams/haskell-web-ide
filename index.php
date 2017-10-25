@@ -26,10 +26,27 @@ if ($_GET['a'] === "load") {
     }
     // end: take version backup
     file_put_contents($sourceFile, $_POST['code']);
+
+	$start = getTime();
     $compiler = `ghc {$sourceFile} 2> compiler.err`;
+	$end = getTime();
+	$compileTime = $end - $start;
+
     $compiler = nl2br($compiler . file_get_contents("compiler.err"));
+
+	$start = getTime();
     $execution = `./{$sourceName}`;
-    exit(json_encode([ "status" => "ok", "message" => "Compiled", "compiler" => $compiler, "execution" => $execution ]));
+	$end = getTime();
+	$executionTime = $end - $start;
+
+    exit(json_encode([
+		"status" => "ok",
+		"message" => "Compiled",
+		"compiler" => $compiler,
+		"execution" => $execution,
+		"compileTime" => $compileTime,
+		"executionTime" => $executionTime
+	]));
 } else if ($_GET['a'] === "versions") {
     $versions = glob("versions/*");
     $out = "";
@@ -37,6 +54,13 @@ if ($_GET['a'] === "load") {
         $out .= "<a target=\"_blank\" href=\"{$version}\">{$version}</a><br />";
     }
     exit($out);
+} else if ($_GET['a'] === "version") {
+    exit(json_encode([ "status" => "ok", "version" => `ghc --version` ]));
+}
+
+function getTime() {
+    $t = explode(" ", microtime());
+    return (float) $t[0] + (float) $t[1];
 }
 
 $html = <<<eof
@@ -50,7 +74,6 @@ $html = <<<eof
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css" crossorigin="anonymous">
-
         <style type="text/css">
             body {
                 background-color:gray;
@@ -92,12 +115,15 @@ $html = <<<eof
         </div>
         <div id="editor">
             <div id="editor-text"></div>
-            <button class="btn btn-success" id="compile">Compile</button> <a class="btn btn-link" target="_blank" href="index.php?a=versions">Versions</a>
+            <button class="btn btn-success" id="compile">Compile</button> <a class="btn btn-primary" target="_blank" href="index.php?a=versions">Versions</a>
         </div>
         <div id="output">
             <div id="compiler"></div>
+			<div id="compileTime"></div>
             <div id="execution"></div>
+			<div id="executionTime"></div>
         </div>
+        <div class="version"></div>
 
         <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
 
@@ -139,7 +165,7 @@ $html = <<<eof
                 $("#editor-text").css("height", editorY + "px");
 
                 var editor = ace.edit("editor-text");
-                editor.setTheme("ace/theme/monokai");
+                editor.setTheme("ace/theme/solarized_dark");
                 editor.getSession().setMode("ace/mode/{$language}");
 
                 var mobile = window.innerWidth <= 800 && window.innerHeight <= 800;
@@ -151,6 +177,10 @@ $html = <<<eof
 
                 $.getJSON("index.php?a=load", function(json) {
                     editor.setValue(json.code, -1);
+                });
+
+                $.getJSON("index.php?a=version", function(json) {
+                    $(".version").html(json.version);
                 });
 
                 $(".swap").on("click", function() {
@@ -166,8 +196,9 @@ $html = <<<eof
 
                     compiling = true;
                     var content = editor.getValue();
-                    $("#compiler").html("");
-                    $("#execution").html("");
+                    // These two lines remove the previous output.
+                    //$("#compiler").html("");
+                    //$("#execution").html("");
                     swap();
                     $(".message").html("Compiling...Please Wait<br /><img src='assets/loader.gif' alt='loading' />");
                     $.ajax({
@@ -180,6 +211,8 @@ $html = <<<eof
                             $(".message").html("Done");
                             $("#compiler").html(json.compiler);
                             $("#execution").html(json.execution);
+							$("#compileTime").html("<p>Compiled code in " + json.compileTime + " seconds.");
+							$("#executionTime").html("<p>Compiled code in " + json.executionTime + " seconds.");
                         }
                     });
                 });

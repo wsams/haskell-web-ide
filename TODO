@@ -1,0 +1,2 @@
+* show compile time
+* write compile output to a file in addition to the stderr (that way when we load a file you can see the last output - including errors)
