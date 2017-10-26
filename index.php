@@ -107,6 +107,19 @@ $html = <<<eof
                 font-weight:bold;
                 display:block;
             }
+            .version {
+                padding:4px;
+            }
+            #compiler, #compileTime, #execution, #executionTime {
+                padding:6px;
+            }
+            #compileTime, #executionTime {
+                font-size:0.75em;
+                color:#404040;
+            }
+            .version {
+                font-family:Georgia,serif;
+            }
         </style>
     </head>
     <body>
@@ -211,8 +224,8 @@ $html = <<<eof
                             $(".message").html("Done");
                             $("#compiler").html(json.compiler);
                             $("#execution").html(json.execution);
-							$("#compileTime").html("<p>Compiled code in " + json.compileTime + " seconds.");
-							$("#executionTime").html("<p>Compiled code in " + json.executionTime + " seconds.");
+							$("#compileTime").html("<p>Compile time: " + json.compileTime + " seconds.");
+							$("#executionTime").html("<p>Run time: " + json.executionTime + " seconds.");
                         }
                     });
                 });
